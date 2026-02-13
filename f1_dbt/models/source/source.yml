@@ -1,0 +1,20 @@
+version: 2
+
+sources:
+    - name: source
+      database: f1_championship
+      schema: source
+      tables:
+      - name: circuits_csv
+      - name: constructor_results_csv
+      - name: constructor_standings_csv
+      - name: driver_standings_csv
+      - name: drivers_csv
+      - name: lap_times_csv
+      - name: pit_stops_csv
+      - name: qualifying_csv
+      - name: races_csv
+      - name: results_csv
+      - name: seasons_csv
+      - name: sprint_results_csv
+      - name: status_csv

@@ -1,0 +1,28 @@
+version: 2
+
+models:
+    - name: circuits
+    
+    - name: constructor_results
+      
+    - name: constructors
+          
+    - name: driver_standings
+          
+    - name: drivers
+         
+    - name: lap_times
+        
+    - name: pit_stops
+     
+    - name: qualifying
+       
+    - name: races
+         
+    - name: results
+      
+    - name: seasons
+      
+    - name: sprint_results
+         
+    - name: status
