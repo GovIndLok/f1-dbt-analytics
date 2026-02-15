@@ -3,7 +3,7 @@ version: 2
 sources:
     - name: source
       database: f1_championship
-      schema: source
+      schema: "{{ var('source_schema') }}"
       tables:
       - name: circuits_csv
       - name: constructors_csv
