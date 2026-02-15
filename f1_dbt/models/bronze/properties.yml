@@ -1,28 +1,28 @@
 version: 2
 
 models:
-    - name: circuits
+    - name: bronze_circuits
     
-    - name: constructor_results
+    - name: bronze_constructor_results
       
-    - name: constructors
+    - name: bronze_constructors
           
-    - name: driver_standings
+    - name: bronze_driver_standings
           
-    - name: drivers
+    - name: bronze_drivers
          
-    - name: lap_times
+    - name: bronze_lap_times
         
-    - name: pit_stops
+    - name: bronze_pit_stops
      
-    - name: qualifying
+    - name: bronze_qualifying
        
-    - name: races
+    - name: bronze_races
          
-    - name: results
+    - name: bronze_results
       
-    - name: seasons
+    - name: bronze_seasons
       
-    - name: sprint_results
+    - name: bronze_sprint_results
          
-    - name: status
+    - name: bronze_status
