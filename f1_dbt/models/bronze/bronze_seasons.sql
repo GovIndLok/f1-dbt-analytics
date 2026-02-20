@@ -7,7 +7,7 @@
 -- dbt source: {{ source('source', 'seasons_csv') }}
 
 SELECT * FROM read_files(
-    '{{ "/Volumes/" ~ target.catalog ~ "/source/raw_file/seasons.csv" }}',
+    "/Volumes/{{ var('catalog') }}/{{ var('source_schema') }}/{{ var('source_volume') }}/seasons.csv",
     format => 'csv',
     header => true,
     inferSchema => true

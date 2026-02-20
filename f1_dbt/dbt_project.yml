@@ -25,7 +25,6 @@ clean-targets:         # directories to be removed by `dbt clean`
 vars:
   catalog: "f1_championship"
   source_schema: "source"
-  source_volume: "raw_data"
   bronze_schema: "bronze"
   silver_schema: "silver"
   gold_schema: "gold"
