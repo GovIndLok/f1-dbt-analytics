@@ -10,7 +10,7 @@ models:
             - unique
     - name: bronze_constructors
       columns:
-        - name: constructorStandingsId
+        - name: constructorId
           description: "Unique identifier for each constructor standing."
           tests:
             - not_null
