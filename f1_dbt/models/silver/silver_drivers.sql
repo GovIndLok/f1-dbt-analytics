@@ -35,7 +35,7 @@ casted_drivers AS (
     SELECT
     driverId,
     driverRef,
-    CAST(number AS INT) AS number,
+    number,
     LEFT(CAST(code AS STRING), 3) AS code,
     forename,
     surname,
