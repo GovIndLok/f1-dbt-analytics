@@ -42,3 +42,9 @@ models:
     bronze:
       +materialized: table
       +schema: bronze
+
+seeds:
+  f1_dbt:
+    enabled: false ## Disable seeds for Development
+    +materialized: seed
+    +schema: bronze
