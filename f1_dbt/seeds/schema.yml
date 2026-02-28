@@ -1,0 +1,15 @@
+version: 2
+
+seeds:
+    - name: status
+      description: "Unique identifier for each status."
+      columns:
+        - name: statusId
+          description: "Unique identifier for each status."
+          tests:
+            - not_null
+            - unique
+        - name: status
+          description: "Status of the race."
+          tests:
+            - not_null
