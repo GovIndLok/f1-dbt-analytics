@@ -1,7 +1,7 @@
 version: 2
 
 seeds:
-  - name: team_lineage_mapping
+  - name: seed_constructor_lineage
     description: >
       F1 team lineage reference data. Defines rebrands (same entry, new name — stats combined
       under one team_lineage_id) and successions (new legal entity acquires an entry —

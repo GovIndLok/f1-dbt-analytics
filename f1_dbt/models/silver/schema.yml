@@ -1,0 +1,118 @@
+version: 2
+
+models:
+  - name: silver_constructors
+    description: >
+      Constructor dimension enriched with F1 team lineage tracking.
+      Rebrands (same team, new name) share a team_lineage_id.
+      Successions (new entity, acquired entry) have a new team_lineage_id
+      linked to the predecessor via predecessor_lineage_id.
+      Lineage data sourced from seed_constructor_lineage.
+
+    columns:
+      - name: constructor_id
+        description: "Integer ID from the bronze layer (cast from constructorId). May repeat for constructors with multiple eras (e.g. Renault 2002-2011 and 2016-2020)."
+        tests:
+          - not_null
+
+      - name: constructor_ref
+        description: "Lowercase constructor reference key (e.g. alphatauri, rb). Matches seed_constructor_lineage."
+        tests:
+          - not_null
+
+      - name: constructor_name
+        description: "Official constructor name as of their last race entry."
+        tests:
+          - not_null
+
+      - name: nationality
+        description: "Nationality of the constructor."
+        tests:
+          - not_null
+
+      - name: wikipedia_url
+        description: "Wikipedia URL for the constructor. May be NULL."
+
+      - name: team_lineage_id
+        description: >
+          Groups constructors that are the same entity under different names (rebrands share an ID).
+          Succession teams receive a new lineage_id.
+          Falls back to constructor_ref || '_lineage' if not in the seed.
+        tests:
+          - not_null
+
+      - name: root_team_name
+        description: "The original/primary display name for the lineage group (e.g. 'Toro Rosso' for AlphaTauri)."
+        tests:
+          - not_null
+
+      - name: lineage_sequence
+        description: "Position within the lineage (1 = original name, 2 = first rebrand, etc.)."
+        tests:
+          - not_null
+
+      - name: rebrand_year_start
+        description: "First season this constructor raced under this name."
+
+      - name: rebrand_year_end
+        description: "Last season this constructor raced under this name. NULL means currently active."
+
+      - name: predecessor_lineage_id
+        description: >
+          For succession teams only: the team_lineage_id of the entry they acquired.
+          NULL for rebrands and original independent teams.
+        tests:
+          - relationships:
+              arguments:
+                to: ref('seed_constructor_lineage')
+                field: team_lineage_id
+              config:
+                where: "predecessor_lineage_id IS NOT NULL"
+                severity: warn
+
+      - name: succession_type
+        description: "How the succession occurred. NULL for rebrands within the same lineage."
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['buyout', 'team_purchase', 'license_transfer']
+              config:
+                where: "succession_type IS NOT NULL"
+
+      - name: rebrand_notes
+        description: "Human-readable explanation of the team name change or succession event."
+
+      - name: is_part_of_lineage
+        description: "TRUE if this constructor is tracked in seed_constructor_lineage, FALSE otherwise."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [true, false]
+
+      - name: is_rebrand
+        description: "TRUE if this constructor is a renamed version of an earlier team (lineage_sequence > 1)."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [true, false]
+
+      - name: is_successor_team
+        description: "TRUE if this constructor acquired another team's entry (has a predecessor_lineage_id)."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [true, false]
+
+      - name: is_current_name
+        description: "TRUE if rebrand_year_end is NULL (team is still racing under this name)."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [true, false]
+
+
+

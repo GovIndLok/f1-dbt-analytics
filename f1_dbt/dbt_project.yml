@@ -47,3 +47,10 @@ models:
     bronze:
       +materialized: table
       +schema: bronze
+    silver:
+      +materialized: view
+      +schema: silver
+
+snapshots:
+  f1_dbt:
+    +target_schema: snapshots

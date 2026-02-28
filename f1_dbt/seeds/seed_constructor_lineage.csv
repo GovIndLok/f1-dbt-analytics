@@ -13,7 +13,7 @@ racing_point,racing_point_lineage,Racing Point,1,2019,2020,force_india_lineage,t
 aston_martin,racing_point_lineage,Racing Point,2,2021,,,,Rebranded to Aston Martin following Stroll investment
 renault,renault_lineage,Renault,1,2002,2011,,,Renault purchased Benetton in 2000 entered as Renault works
 lotus_f1,renault_lineage,Renault,2,2012,2015,,,Lotus Cars took naming rights - still Renault-owned chassis
-renault2,renault_lineage,Renault,3,2016,2020,,,Renault returned as works team after Lotus insolvency
+renault,renault_lineage,Renault,3,2016,2020,,,Renault returned as works team after Lotus insolvency
 alpine,renault_lineage,Renault,4,2021,,,,Rebrand to Renault Alpine brand
 brawn,brawn_lineage,Brawn GP,1,2009,2009,,,Ross Brawn bought Honda entry after Honda withdrawal
 mercedes,mercedes_lineage,Mercedes,1,2010,,brawn_lineage,team_purchase,Mercedes-Benz purchased Brawn GP as works team
