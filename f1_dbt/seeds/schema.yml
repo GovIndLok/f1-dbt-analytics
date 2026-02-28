@@ -61,3 +61,16 @@ seeds:
 
       - name: rebrand_notes
         description: "Human-readable explanation of the team name change or succession event."
+
+  - name: status
+    description: "Unique identifier for each status."
+    columns:
+      - name: statusId
+        description: "Unique identifier for each status."
+        tests:
+          - not_null
+          - unique
+      - name: status
+        description: "Status of the race."
+        tests:
+          - not_null

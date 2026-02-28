@@ -201,16 +201,4 @@ models:
           tests:
             - not_null:
                 config:
-                  severity: warn
-    - name: bronze_status
-      columns:
-        - name: statusId
-          description: "Unique identifier for each status."
-          tests:
-            - not_null:
-                config:
-                  severity: warn
-            - unique:
-                config:
-                  severity: warn
-          
+                  severity: warn          

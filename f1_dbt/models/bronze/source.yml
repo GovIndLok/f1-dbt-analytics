@@ -65,8 +65,3 @@ sources:
           config:
             meta:
               source_volume: "{{ var('source_volume') }}/{{ var('source_schema') }}/{{ var('source_volume') }}/sprint_results.csv"
-        - name: status
-          description: "The table captures various statuses related to the F1 championship events."
-          config:
-            meta:
-              source_volume: "{{ var('source_volume') }}/{{ var('source_schema') }}/{{ var('source_volume') }}/status.csv"
