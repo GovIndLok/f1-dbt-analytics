@@ -114,5 +114,35 @@ models:
               arguments:
                 values: [true, false]
 
+  - name: silver_driver_num
+    description: "Tracking driver number changes over time."
+    columns:
+      - name: driverId
+        description: "Integer ID from the bronze layer (cast from driverId). May repeat for drivers with multiple eras (e.g. Schumacher 1991-2006 and 2010-2012)."
+        tests:
+          - not_null
 
-
+      - name: year
+        description: "Year/season when driver used the number in entry"
+        tests:
+          - not_null
+      
+      - name: number
+        description: "Driver number used in entry"
+        tests:
+          - not_null
+      
+      - name: firstDate
+        description: "First date the driver used the number in entry"
+        tests:
+          - not_null
+      
+      - name: lastDate
+        description: "Last date the driver used the number in entry"
+        tests:
+          - not_null
+      
+      - name: raceCount
+        description: "Number of races the driver used the number in entry"
+        tests:
+          - not_null
