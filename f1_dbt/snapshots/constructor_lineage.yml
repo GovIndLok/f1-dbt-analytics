@@ -1,0 +1,18 @@
+version: 1
+
+snapshots:
+  - name: snapshot_constructor_lineage
+    relation: ref("seed_constructor_lineage")
+    config:
+      unique_key: ["constructor_ref", "rebrand_year_start"]
+      strategy: check
+      check_cols:
+        - team_lineage_id
+        - root_team_name
+        - lineage_sequence
+        - rebrand_year_end
+        - predecessor_lineage_id
+        - succession_type
+        - rebrand_notes
+      target_schema: "snapshots"
+      invalidate_hard_deletes: true

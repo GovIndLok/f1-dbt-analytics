@@ -1,0 +1,10 @@
+version: 1
+
+snapshots:
+  - name: snapshot_drivers
+    relation: ref("bronze_drivers")
+    config:
+        unique_key: driver_id
+        strategy: check
+        check_cols: ["nationality"]
+        target_schema: "snapshots"

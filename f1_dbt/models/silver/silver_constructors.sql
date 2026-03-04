@@ -1,30 +1,69 @@
 {{
-  config(
-    materialized = 'table',
+    config(
+        materialized = 'table',
+        schema = var('silver_schema')
     )
 }}
 
-WITH source_constructors AS (
+/*
+    silver_constructors
+    -------------------
+    Constructor dimension enriched with team lineage tracking from seed_constructor_lineage.
+
+    Grain: one row per constructor-era. A constructor that left and returned
+    (e.g. Renault 2002-2011 then 2016-2020) will appear in multiple rows.
+
+    Rebrands  → same team_lineage_id, combined stats (e.g. Toro Rosso → AlphaTauri → RB)
+    Successions → new team_lineage_id, separate stats, linked via predecessor_lineage_id (e.g. Kick Sauber → Audi)
+
+    Source: bronze_constructors  (raw CSV data)
+    Lineage: seed_constructor_lineage (reference seed, SCD2 tracked via snapshot_constructor_lineage)
+*/
+
+WITH source AS (
     SELECT * FROM {{ ref('bronze_constructors') }}
 ),
 
-WITH deduplicate_constructors AS (
-    SELECT *,
-    ROW_NUMBER() OVER (
-        PARTITION BY constructorId 
-    ) AS rowNum
-    FROM source_constructors
+cleaned AS (
+    SELECT
+        CAST(constructorId AS INTEGER),
+        LOWER(COALESCE(NULLIF(TRIM(constructorRef), ''), 'unknown')),
+        COALESCE(NULLIF(TRIM(name), ''), 'Unknown')                             AS constructorName,
+        COALESCE(NULLIF(TRIM(nationality), ''), 'Unknown'),
+        NULLIF(TRIM(url), '')                                                   AS wikipediaUrl
+    FROM source
+    WHERE constructorId IS NOT NULL
 ),
 
-WITH cleaned_constructors AS (
-    SELECT 
-    constructorId,
-    constructorRef,
-    name,
-    nationality,
-    url
-    FROM deduplicate_constructors
-    WHERE rowNum = 1
+with_lineage AS (
+    SELECT
+        -- Core constructor fields
+        c.constructorId,
+        c.constructorRef,
+        c.constructorName,
+        c.nationality,
+        c.wikipediaUrl,
+
+        -- Lineage enrichment from seed_constructor_lineage
+        -- Falls back to a generated value for constructors not in the seed
+        COALESCE(lin.team_lineage_id,    c.constructorRef || '_lineage')       AS team_lineage_id,
+        COALESCE(lin.root_team_name,     c.constructorName)                    AS root_team_name,
+        COALESCE(lin.lineage_sequence,   1)                                     AS lineage_sequence,
+        lin.rebrand_year_start,
+        lin.rebrand_year_end,
+        lin.predecessor_lineage_id,
+        lin.succession_type,
+        lin.rebrand_notes,
+
+        -- Computed lineage flags
+        CASE WHEN lin.constructor_ref IS NOT NULL    THEN TRUE ELSE FALSE END   AS is_part_of_lineage,
+        CASE WHEN lin.lineage_sequence > 1           THEN TRUE ELSE FALSE END   AS is_rebrand,
+        CASE WHEN lin.predecessor_lineage_id IS NOT NULL THEN TRUE ELSE FALSE END AS is_successor_team,
+        CASE WHEN lin.rebrand_year_end IS NULL       THEN TRUE ELSE FALSE END   AS is_current_name
+
+    FROM cleaned c
+    LEFT JOIN {{ ref('seed_constructor_lineage') }} lin
+        ON c.constructorRef = lin.constructor_ref
 )
 
-SELECT * FROM cleaned_constructors
+SELECT * FROM with_lineage
