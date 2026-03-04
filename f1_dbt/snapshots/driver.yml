@@ -6,5 +6,5 @@ snapshots:
     config:
         unique_key: driver_id
         strategy: check
-        check_cols: ["number", "nationality"]
+        check_cols: ["nationality"]
         target_schema: "snapshots"
