@@ -18,12 +18,13 @@ WITH deduplicate_qualifyings AS (
 
 WITH casted_qualifyings AS (
     SELECT
-    raceId,
-    driverId,
-    position,
-    CAST('00:' || NULLIF(NULLIF(q1, '\N'), '') AS INTERVAL) AS q1,
-    CAST('00:' || NULLIF(NULLIF(q2, '\N'), '') AS INTERVAL) AS q2,
-    CAST('00:' || NULLIF(NULLIF(q3, '\N'), '') AS INTERVAL) AS q3
+        qualifyId,
+        raceId,
+        driverId,
+        position,
+        CAST('00:' || NULLIF(NULLIF(q1, '\N'), '') AS INTERVAL) AS q1,
+        CAST('00:' || NULLIF(NULLIF(q2, '\N'), '') AS INTERVAL) AS q2,
+        CAST('00:' || NULLIF(NULLIF(q3, '\N'), '') AS INTERVAL) AS q3
     FROM deduplicate_qualifyings
     WHERE rowNum = 1
 )

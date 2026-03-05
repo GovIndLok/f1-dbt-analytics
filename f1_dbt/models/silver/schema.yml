@@ -288,6 +288,8 @@ models:
   - name: silver_qualifyings
     description: "Cleaned qualifying session results with cast interval lap times."
     columns:
+      - name: qualifyId
+        description: "Unique identifier for each qualifying record."
       - name: raceId
         description: "Foreign key to the race."
       - name: driverId

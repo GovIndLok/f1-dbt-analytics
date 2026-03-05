@@ -11,7 +11,7 @@ WITH source_lap_times AS (
 WITH deduplicate_lap_times AS (
     SELECT *, 
     ROW_NUMBER() OVER (
-        PARTITION BY lapTimeId
+        PARTITION BY raceId, driverId, lap
     ) AS rowNum
     FROM source_lap_times
 ),
