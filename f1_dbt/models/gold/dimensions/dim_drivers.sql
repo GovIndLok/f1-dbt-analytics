@@ -1,4 +1,4 @@
-{{
+{{  
   config(
     materialized = 'table',
     tags = ['dimension']
@@ -13,15 +13,15 @@ latest_numbers AS (
     SELECT
         driverId,
         season_number as currentNumber,
-        season as lastRaceSeason,
+        season as lastRaceSeason
         FROM {{ ref('silver_driver_num') }}
         QUALIFY ROW_NUMBER() OVER (PARTITION BY driverId ORDER BY season DESC) = 1
 ),
 
 final AS (
     SELECT
-        d.driverId,
-        d.driverRef,
+        d.driverId as driver_id,
+        d.driverRef as driver_ref,
 
         d.forename,
         d.surname,
@@ -29,12 +29,12 @@ final AS (
         d.nationality,
         d.dob,
 
-        ln.currentNumber,
-        ln.lastRaceSeason,
+        ln.currentNumber as current_number,
+        ln.lastRaceSeason as last_race_season,
 
-        CASE ln.lastRaceSeason = 2024 THEN TRUE
+        CASE WHEN ln.lastRaceSeason = 2024 THEN TRUE
             ELSE FALSE
-        END AS isActive
+        END AS is_active
 
         FROM soruce_drivers d
         LEFT JOIN latest_numbers ln

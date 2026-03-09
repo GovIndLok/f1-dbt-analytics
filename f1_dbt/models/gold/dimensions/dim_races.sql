@@ -11,13 +11,13 @@ WITH source_races AS (
 
 final AS (
     SELECT
-        raceId,
-        circuitId, -- foreign key
+        raceId as race_id,
+        circuitId as circuit_id, -- foreign key
         year,
         round,
-        name AS raceName,
-        date AS raceDate,
-        time AS raceTime,
+        name AS race_name,
+        date AS race_date,
+        time AS race_time,
     FROM source_races
 )
 
