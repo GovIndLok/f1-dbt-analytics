@@ -112,12 +112,12 @@ models:
         tests:
           - not_null
       
-      - name: year
+      - name: raceYear
         description: "Year/season when driver used the number in entry"
         tests:
           - not_null
       
-      - name: number
+      - name: driverNumber
         description: "Driver number used in entry"
         tests:
           - not_null
@@ -202,9 +202,9 @@ models:
         description: "Foreign key to the circuit where the race was held."
       - name: name
         description: "Official name of the race."
-      - name: date
+      - name: raceDate
         description: "Date of the race (DATE, nullable)."
-      - name: time
+      - name: raceTime
         description: "Local start time of the race (TIME, nullable)."
       - name: url
         description: "Wikipedia URL for the race."
@@ -288,18 +288,20 @@ models:
   - name: silver_qualifyings
     description: "Cleaned qualifying session results with cast interval lap times."
     columns:
+      - name: qualifyId
+        description: "Unique identifier for each qualifying record."
       - name: raceId
         description: "Foreign key to the race."
       - name: driverId
         description: "Foreign key to the driver."
       - name: position
         description: "Final qualifying position."
-      - name: q1
-        description: "Q1 lap time as INTERVAL (nullable)."
-      - name: q2
-        description: "Q2 lap time as INTERVAL (nullable)."
-      - name: q3
-        description: "Q3 lap time as INTERVAL (nullable)."
+      - name: q1_sec
+        description: "Q1 lap time in total seconds as DOUBLE (nullable)."
+      - name: q2_sec
+        description: "Q2 lap time in total seconds as DOUBLE (nullable)."
+      - name: q3_sec
+        description: "Q3 lap time in total seconds as DOUBLE (nullable)."
 
   - name: silver_results
     description: "Cleaned race results with cast position, points, time, and fastest lap fields."

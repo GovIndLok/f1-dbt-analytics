@@ -12,6 +12,7 @@ deduplicate_driver_standings AS (
     SELECT *,
     ROW_NUMBER() OVER (
         PARTITION BY driverStandingsId 
+        ORDER BY driverStandingsId
     ) AS rowNum
     FROM source_driver_standings
 ),
@@ -21,7 +22,7 @@ casted_driver_standings AS (
     driverStandingsId,
     raceId,
     driverId,
-    CAST(points AS DECIMAL(3, 1)) AS points,
+    CAST(points AS DECIMAL(4, 1)) AS points,
     position,
     wins                                         -- wins in season at that point in time
     FROM deduplicate_driver_standings
