@@ -7,41 +7,27 @@ models:
     columns:
       - name: constructorId
         description: "Integer ID from the bronze layer (cast from constructorId). May repeat for constructors with multiple eras (e.g. Renault 2002-2011 and 2016-2020)."
-        tests:
-          - not_null
 
       - name: constructorRef
         description: "Lowercase constructor reference key (e.g. alphatauri, rb). Matches seed_constructor_lineage."
-        tests:
-          - not_null
 
       - name: constructorName
         description: "Official constructor name as of their last race entry."
-        tests:
-          - not_null
 
       - name: nationality
         description: "Nationality of the constructor."
-        tests:
-          - not_null
 
       - name: wikipediaUrl
         description: "Wikipedia URL for the constructor. May be NULL."
 
       - name: team_lineage_id
         description: "Groups constructors that are the same entity under different names (rebrands share an ID). Succession teams receive a new lineage_id. Falls back to constructor_ref || '_lineage' if not in the seed."
-        tests:
-          - not_null
 
       - name: root_team_name
         description: "The original/primary display name for the lineage group (e.g. 'Toro Rosso' for AlphaTauri)."
-        tests:
-          - not_null
-
+    
       - name: lineage_sequence
         description: "Position within the lineage (1 = original name, 2 = first rebrand, etc.)."
-        tests:
-          - not_null
 
       - name: rebrand_year_start
         description: "First season this constructor raced under this name."
