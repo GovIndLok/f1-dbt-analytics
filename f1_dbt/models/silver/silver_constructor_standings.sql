@@ -8,20 +8,21 @@ WITH source_constructor_standings AS (
     SELECT * FROM {{ ref('bronze_constructor_standings') }}
 ),
 
-WITH deduplicate_constructor_standings AS (
+deduplicate_constructor_standings AS (
     SELECT *,
     ROW_NUMBER() OVER (
         PARTITION BY constructorStandingsId 
+        ORDER BY constructorStandingsId
     ) AS rowNum
     FROM source_constructor_standings
 ),
 
-WITH casted_constructor_standings AS (
+casted_constructor_standings AS (
     SELECT 
     constructorStandingsId,
     raceId,
     constructorId,
-    CAST(points AS DECIMAL(3,1)) AS points,
+    CAST(points AS DECIMAL(5,1)) AS points,
     position,
     wins
     FROM deduplicate_constructor_standings

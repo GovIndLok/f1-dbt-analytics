@@ -8,10 +8,11 @@ WITH source_races AS (
     SELECT * FROM {{ ref('bronze_races') }}
 ),
 
-WITH deduplicate_races AS (
+deduplicate_races AS (
     SELECT *,
     ROW_NUMBER() OVER (
         PARTITION BY raceId 
+        ORDER BY raceId
     ) AS rowNum
     FROM source_races
 ),
@@ -23,8 +24,15 @@ cleaned_races AS (
     round,
     circuitId,
     name,
-    TRY_CAST(NULLIF(date, '\N') AS DATE) AS date,
-    TRY_CAST(NULLIF(time, '\N') AS TIME) AS time,
+    CASE WHEN date RLIKE '^[0-9]' THEN date ELSE NULL END AS raceDate,
+    CASE WHEN time RLIKE '^[0-9]' THEN time ELSE NULL END AS raceTime,
+    TRY_TO_TIMESTAMP(
+        CASE WHEN date RLIKE '^[0-9]' AND time RLIKE '^[0-9]'
+             THEN date || ' ' || time
+             ELSE NULL
+        END,
+        'yyyy-MM-dd HH:mm:ss'
+    ) AS race_timestamp,
     url
     FROM deduplicate_races
     WHERE rowNum = 1

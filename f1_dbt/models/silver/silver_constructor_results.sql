@@ -8,17 +8,18 @@ WITH source_constructor_results AS (
     SELECT * FROM {{ ref('bronze_constructor_results') }}
 ),
 
-WITH deduplicate_constructor_results AS (
+deduplicate_constructor_results AS (
     SELECT *,
     ROW_NUMBER() OVER (
-        PARTITION BY constructorResultId 
+        PARTITION BY constructorResultsId 
+        ORDER BY constructorResultsId
     ) AS rowNum
     FROM source_constructor_results
 ),
 
-WITH cleaned_constructor_results AS (
+cleaned_constructor_results AS (
     SELECT 
-    constructorResultId,
+    constructorResultsId,
     raceId,
     constructorId,
     points,
@@ -29,7 +30,7 @@ WITH cleaned_constructor_results AS (
 
 casted_constructor_results AS (
     SELECT
-    constructorResultId,
+    constructorResultsId,
     raceId,
     constructorId,
     CAST(points AS DECIMAL(4, 1)) AS points,
