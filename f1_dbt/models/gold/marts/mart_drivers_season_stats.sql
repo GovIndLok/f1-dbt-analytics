@@ -15,9 +15,9 @@ race_years AS (
 
 race_results AS (
     SELECT 
-        driver_id,
+        res.driver_id,
         rac.year,
-        COUNT(race_id) as total_races,
+        COUNT(res.race_id) as total_races,
         SUM(points) as total_points,
         AVG(start_position) as avg_start_position,
         AVG(finish_order) as avg_finish_order,
@@ -31,19 +31,19 @@ race_results AS (
     FROM {{ ref('fct_results') }} res
     LEFT JOIN race_years rac
         ON res.race_id = rac.race_id
-    GROUP BY driver_id, rac.year
+    GROUP BY res.driver_id, rac.year
 ),
 
 qualifying AS (
     SELECT 
-        driver_id,
+        qual.driver_id,
         rac.year,
         AVG(qualifying_position) as avg_qualifying_position,
-        SUM(CASE WHEN q3 IS NOT NULL THEN 1 ELSE 0 END) as total_q3_apperances
+        SUM(CASE WHEN q3_sec IS NOT NULL THEN 1 ELSE 0 END) as total_q3_apperances
     FROM {{ ref('fct_qualifyings') }} qual
     LEFT JOIN race_years rac
         ON qual.race_id = rac.race_id
-    GROUP BY driver_id, rac.year
+    GROUP BY qual.driver_id, rac.year
 ),
 
 final AS (

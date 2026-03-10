@@ -27,9 +27,9 @@ final AS (
         ra.circuitId as circuit_id,
 
         q.position as qualifying_position,
-        q.q1,
-        q.q2,
-        q.q3
+        q.q1_sec,
+        q.q2_sec,
+        q.q3_sec
     FROM source_qualifyings q
     LEFT JOIN results res
         ON q.raceId = res.raceId

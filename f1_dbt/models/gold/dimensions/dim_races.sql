@@ -16,8 +16,8 @@ final AS (
         year,
         round,
         name AS race_name,
-        date AS race_date,
-        time AS race_time,
+        raceDate AS race_date,
+        raceTime AS race_time
     FROM source_races
 )
 

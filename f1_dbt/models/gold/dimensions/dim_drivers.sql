@@ -12,10 +12,10 @@ WITH soruce_drivers AS (
 latest_numbers AS (
     SELECT
         driverId,
-        season_number as currentNumber,
-        season as lastRaceSeason
+        driverNumber as currentNumber,
+        raceYear as lastRaceSeason
         FROM {{ ref('silver_driver_num') }}
-        QUALIFY ROW_NUMBER() OVER (PARTITION BY driverId ORDER BY season DESC) = 1
+        QUALIFY ROW_NUMBER() OVER (PARTITION BY driverId ORDER BY raceYear DESC) = 1
 ),
 
 final AS (

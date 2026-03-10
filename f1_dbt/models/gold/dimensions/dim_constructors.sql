@@ -15,14 +15,14 @@ final AS (
 
         constructorRef,
         constructorName,
-        constructorNationality,
-        constructorUrl,
+        nationality as constructorNationality,
+        wikipediaUrl as constructorUrl,
 
         root_team_name,
 
         is_rebrand,
         is_successor_team,
-        is_current_name,
+        is_current_name
     FROM source_constructors
 )
 

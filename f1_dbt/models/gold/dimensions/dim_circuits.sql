@@ -18,7 +18,7 @@ final AS (
         country,
         lat AS latitude,
         lng AS longitude,
-        alt AS altitude,
+        alt AS altitude
         FROM source_circuits
 )
 
