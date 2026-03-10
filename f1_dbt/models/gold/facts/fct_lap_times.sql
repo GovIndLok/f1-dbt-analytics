@@ -27,7 +27,7 @@ final AS (
 
         lt.lap,
         lt.position,
-        lt.time as lap_time,
+        lt.timeDisplay as lap_time,
         lt.milliseconds as lap_ms
     FROM source_lap_times lt
     LEFT JOIN races ra

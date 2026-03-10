@@ -50,6 +50,9 @@ models:
     silver:
       +materialized: table
       +schema: silver
+    gold:
+      +materalized: table
+      +schema: gold
 
 snapshots:
   f1_dbt:

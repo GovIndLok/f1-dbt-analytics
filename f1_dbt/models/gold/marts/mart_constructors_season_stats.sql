@@ -16,6 +16,7 @@ race_years AS (
 race_results AS (
     SELECT 
         res.constructor_id,
+        res.race_id,
         rac.year,
         SUM(res.points) as total_points,
         SUM(CASE WHEN res.finish_order = 1 THEN 1 ELSE 0 END) as total_wins,
@@ -26,7 +27,7 @@ race_results AS (
     FROM {{ ref('fct_results') }} res
     LEFT JOIN race_years rac
         ON res.race_id = rac.race_id
-    GROUP BY res.constructor_id, res.race_id,rac.year
+    GROUP BY res.constructor_id, res.race_id, rac.year
 ),
 
 race_stats AS (

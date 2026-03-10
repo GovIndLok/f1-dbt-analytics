@@ -22,6 +22,8 @@ casted_pit_stops AS (
     raceId,
     driverId,
     stop,
+    lap,
+    time,
     CAST(milliseconds AS INT) AS milliseconds
     FROM deduplicate_pit_stops
     WHERE rowNum = 1

@@ -266,6 +266,10 @@ models:
         description: "Foreign key to the driver."
       - name: stop
         description: "Pit stop sequence number for the driver in this race."
+      - name: lap
+        description: "Lap number in race when the pit stop took place"
+      - name: time
+        description: "Display time it took for pitstop"
       - name: milliseconds
         description: "Pit stop duration in milliseconds (INT)."
       - name: time
