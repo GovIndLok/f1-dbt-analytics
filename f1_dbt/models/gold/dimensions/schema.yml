@@ -1,0 +1,128 @@
+version: 1
+
+models:
+    - name: dim_constructors
+      description: "Dimension table for constructors"
+      columns:
+        - name: constructor_id
+          description: "Unique identifier for constructor"
+          tests:
+              - not_null:
+                    severity: error
+              - unique:
+                    severity: error
+              - relationships:
+                    to: ref('silver_constructors')
+                    field: constructorId
+                    severity: error
+        - name: constructor_ref
+          description: "Reference for constructor"
+        - name: constructor_name
+          description: "Name of constructor"
+        - name: constructor_nationality
+          description: "Nationality of constructor"
+        - name: root_lineage_name
+          description: "Root lineage name for constructor"
+        - name: team_lineage_id
+          description: "Team lineage identifier for constructor"
+          tests:
+              - not_null:
+                    severity: error
+        - name: is_rebrand
+          description: "Flag indicating if constructor is a rebrand"
+        - name: is_successor_team
+          description: "Flag indicating if constructor is a successor team"
+        - name: is_current_name
+          description: "Flag indicating if constructor is using current name"
+    
+    - name: dim_drivers
+      description: "Dimension table for drivers"
+      columns:
+        - name: driver_id
+          description: "Unique identifier for driver"
+          tests:
+              - not_null:
+                    severity: error
+              - unique:
+                    severity: error
+              - relationships:
+                    to: ref('silver_drivers')
+                    field: driverId
+                    severity: error
+        - name: driver_ref
+          description: "Reference for driver"
+        - name: forename
+          description: "Forename of driver"
+        - name: surname
+          description: "Surname of driver"
+        - name: nationality
+          description: "Nationality of driver"
+        - name: dob
+          description: "Date of birth of driver"
+        - name: current_number
+          description: "Current number of driver"
+        - name: last_race_season
+          description: "Last race season of driver"
+        - name: is_active
+          description: "Flag indicating if driver is active"
+          
+    - name: dim_races
+      description: "Dimension table for races"
+      columns:
+        - name: race_id
+          description: "Unique identifier for race"
+          tests:
+              - not_null:
+                    severity: error
+              - unique:
+                    severity: error
+              - relationships:
+                    to: ref('silver_races')
+                    field: raceId
+                    severity: error
+        - name: circuit_id
+          description: "Unique identifier for circuit"
+          tests:
+              - relationships:
+                    to: ref('silver_circuits')
+                    field: circuit_id
+                    severity: error
+        - name: year
+          description: "Year the race was held. (Also refers to as Season)"
+        - name: round
+          description: "Round of race for given year / season the race was held"
+        - name: race_name
+          description: "Name of race"
+        - name: race_date
+          description: "Date of race"
+        - name: race_time
+          description: "Time of race"
+    
+    - name: dim_circuits
+      description: "Dimension table for circuits"
+      columns:
+        - name: circuit_id
+          description: "Unique identifier for circuit"
+          tests:
+              - not_null:
+                    severity: error
+              - unique:
+                    severity: error
+              - relationships:
+                    to: ref('silver_circuits')
+                    field: circuitId
+                    severity: error
+        - name: circuit_ref
+          description: "Reference for circuit"
+        - name: circuit_name
+          description: "Name of circuit"
+        - name: circuit_location
+          description: "Location of circuit"
+        - name: country
+          description: "Country of circuit"
+        - name: latitude
+          description: "Latitude of circuit"
+        - name: longitude
+          description: "Longitude of circuit"
+        - name: altitude
+          description: "Altitude of circuit"

@@ -13,8 +13,8 @@ final AS (
     SELECT
         circuitId,
         circuitRef,
-        name AS circuitName,
-        location AS circuitLocation,
+        name AS circuit_name,
+        location AS circuit_location,
         country,
         lat AS latitude,
         lng AS longitude,
