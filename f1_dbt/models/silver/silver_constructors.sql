@@ -26,11 +26,11 @@ WITH source AS (
 
 cleaned AS (
     SELECT
-        CAST(constructorId AS INTEGER),
-        LOWER(COALESCE(NULLIF(TRIM(constructorRef), ''), 'unknown')),
-        COALESCE(NULLIF(TRIM(name), ''), 'Unknown')                             AS constructorName,
-        COALESCE(NULLIF(TRIM(nationality), ''), 'Unknown'),
-        NULLIF(TRIM(url), '')                                                   AS wikipediaUrl
+        CAST(constructorId AS INTEGER)                                               AS constructorId,
+        LOWER(COALESCE(NULLIF(TRIM(constructorRef), ''), 'unknown'))                AS constructorRef,
+        COALESCE(NULLIF(TRIM(name), ''), 'Unknown')                                 AS constructorName,
+        COALESCE(NULLIF(TRIM(nationality), ''), 'Unknown')                          AS nationality,
+        NULLIF(TRIM(url), '')                                                        AS wikipediaUrl
     FROM source
     WHERE constructorId IS NOT NULL
 ),

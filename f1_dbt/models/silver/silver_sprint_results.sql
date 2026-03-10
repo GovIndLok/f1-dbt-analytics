@@ -8,15 +8,16 @@ WITH source_sprint_results AS (
     SELECT * FROM {{ ref('bronze_sprint_results') }}
 ),
 
-WITH deduplicate_sprint_results AS (
+deduplicate_sprint_results AS (
     SELECT *, 
     ROW_NUMBER() OVER (
         PARTITION BY raceId, driverId
+        ORDER BY raceId, driverId
     ) AS rowNum
     FROM source_sprint_results
 ),
 
-WITH casted_sprint_results AS (
+casted_sprint_results AS (
     SELECT
     resultId,
     raceId,
@@ -24,22 +25,22 @@ WITH casted_sprint_results AS (
     constructorId,
     number,
     grid,
-    CAST(NULLIF(position, '\N') AS INT) AS finshPosition,
-    CAST(NULLIF(positionText, '\N') AS STRING) AS resultCode,
+    TRY_CAST(position AS INT) AS finshPosition,
+    NULLIF(positionText, '\N') AS resultCode,
     CAST(PositionOrder AS INT) AS finshOrder,
-    CAST(NULLIF(points, '\N') AS INT) AS points,
+    TRY_CAST(points AS DECIMAL(3,1)) AS points,
     laps,
-    NULLIF(NULLIF(TRIM(time), '\N'), '') AS timeDisplay,
-    CAST(NULLIF(milliseconds, '\N') AS INT) AS timeMilliseconds,
-    CAST(NULLIF(fastestLap, '\N') AS INT) AS fastestLap,
-    CAST(NULLIF(fastestLapTime, '\N') AS STRING) AS fastestLapTimeDisplay,
+    CASE WHEN time RLIKE '^[+]?[0-9]' THEN time ELSE NULL END AS timeDisplay,
+    TRY_CAST(milliseconds AS INT) AS timeMilliseconds,
+    TRY_CAST(fastestLap AS INT) AS fastestLap,
+    NULLIF(fastestLapTime, '\N') AS fastestLapTimeDisplay,
     
     -- Convert fastestLapTime to milliseconds
     CASE 
         WHEN fastestLapTime like '%:%' THEN
-            (CAST(SPLIT_PART(fastestLapTime, ':', 1) AS INT) * 60 * 1000) +  -- min to msec
-            (CAST(SPLIT_PART(fastestLapTime, ':', 2) AS INT) * 1000) +       -- sec to msec
-            CAST(SPLIT_PART(fastestLapTime, '.', 2) AS INT)                  -- msec
+            (TRY_CAST(SPLIT_PART(fastestLapTime, ':', 1) AS INT) * 60 * 1000) +  -- min to msec
+            (TRY_CAST(SPLIT_PART(fastestLapTime, ':', 2) AS INT) * 1000) +       -- sec to msec
+            (TRY_CAST(SPLIT_PART(fastestLapTime, '.', 2) AS INT))                -- msec
         ELSE NULL
     END AS fastestLapTimeMilliseconds,
     

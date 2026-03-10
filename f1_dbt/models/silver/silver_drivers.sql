@@ -8,10 +8,11 @@ WITH source_drivers AS (
     SELECT * FROM {{ ref('bronze_drivers') }}
 ),
 
-WITH deduplicate_drivers AS (
+deduplicate_drivers AS (
     SELECT *,
     ROW_NUMBER() OVER (
         PARTITION BY driverId 
+        ORDER BY driverId
     ) AS rowNum
     FROM source_drivers
 ),

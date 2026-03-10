@@ -8,24 +8,15 @@ WITH source_lap_times AS (
     SELECT * FROM {{ ref('bronze_lap_times') }}
 ),
 
-WITH deduplicate_lap_times AS (
-    SELECT *, 
-    ROW_NUMBER() OVER (
-        PARTITION BY lapTimeId
-    ) AS rowNum
-    FROM source_lap_times
-),
-
-WITH casted_lap_times AS (
+casted_lap_times AS (
     SELECT
     raceId,
     driverId,
     lap,
-    position
-    CAST('00:' || NULLIF(NULLIF(time, '\N'), '') AS INTERVAL) AS time,
-    CAST(milliseconds AS INT) AS milliseconds
-    FROM deduplicate_lap_times
-    WHERE rowNum = 1
+    position,
+    CASE WHEN time RLIKE '^[0-9]' THEN time ELSE NULL END AS timeDisplay,
+    TRY_CAST(milliseconds AS INT) AS milliseconds
+    FROM source_lap_times
 )
 
 SELECT * FROM casted_lap_times

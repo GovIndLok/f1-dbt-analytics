@@ -13,6 +13,7 @@ deduplicate_circuits AS (
     SELECT *,
     ROW_NUMBER() OVER (
         PARTITION BY circuitId 
+        ORDER BY circuitId
     ) AS rowNum
     FROM source_circuits
 ),
