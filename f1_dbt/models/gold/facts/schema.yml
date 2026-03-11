@@ -167,7 +167,7 @@ models:
           description: "fastest q3 timings set by drivers (final race order for top 10)"
 
     - name: fct_results
-      descritpion: "fact table for regular race result"
+      description: "fact table for regular race result"
       columns:
         - name: result_id
           description: "result id to indetify individual results"
