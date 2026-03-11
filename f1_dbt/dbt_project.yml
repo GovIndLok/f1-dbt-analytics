@@ -47,12 +47,18 @@ models:
     bronze:
       +materialized: table
       +schema: bronze
+      +docs:
+        node_color: "#b76f27"
     silver:
       +materialized: table
       +schema: silver
+      +docs:
+        node_color: "#767676"
     gold:
       +materalized: table
       +schema: gold
+      +docs:
+        node_color: "#9f7e33"
 
 snapshots:
   f1_dbt:
